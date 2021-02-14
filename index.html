@@ -92,6 +92,18 @@
         }
     })
 
+    input.addEventListener('change', function (event) {
+        event.preventDefault()
+        if (input.value) {
+            let sender = name
+            socket.emit('typing', sender)
+        }
+    })
+
+    socket.on('typing', function (sender) {
+        
+    })
+
     socket.on('chat message', function (msg) {
         var item = document.createElement('li');
         var sender = document.createElement('b');

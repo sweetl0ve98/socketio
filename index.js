@@ -11,6 +11,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         socket.broadcast.emit("user disconnected")
     })
+
+    socket.on('typing', (sender) => {
+        socket.broadcast.emit('typing', sender)
+    })
+
     socket.on('chat message', (message) => {
         io.emit('chat message', message)
     })
