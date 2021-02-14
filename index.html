@@ -70,6 +70,12 @@
     </form>
 </body>
 <script>
+    var name = ''
+    name = prompt("Please enter your name")
+    if (!name) {
+        name = 'Stranger'
+    }
+
     var socket = io();
     var form = document.getElementById('form');
     var input = document.getElementById('input');
@@ -78,15 +84,22 @@
     form.addEventListener('submit', function (event) {
         event.preventDefault()
         if (input.value) {
-            console.log(input.value)
-            socket.emit('chat message', input.value)
+            let message = {}
+            message.content = input.value
+            message.sender = name
+            socket.emit('chat message', message)
             input.value = ''
         }
     })
 
     socket.on('chat message', function (msg) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        var sender = document.createElement('b');
+        var message = document.createElement('span');
+        message.textContent = msg.content
+        sender.textContent = msg.sender + ': '
+        item.appendChild(sender);
+        item.appendChild(message)
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
     });
